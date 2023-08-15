@@ -23,6 +23,7 @@ router.post("/register", async (req, res) => {
       newUser.role = "admin";
     }
     const savedUser = await newUser.save();
+    console.log("User registered:", savedUser.username);
     res.status(201).json(savedUser);
   } catch (err) {
     res.status(500).json(err);
@@ -55,6 +56,7 @@ router.post('/login', async (req, res) => {
       { expiresIn: "15d" }
     );
     const { password, ...others } = user._doc;
+    console.log("User logged in:", user.username);
     res.status(200).json({ ...others, accessToken });
   } catch (err) {
     console.log("Error during login:", err);
