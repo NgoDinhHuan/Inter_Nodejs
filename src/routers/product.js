@@ -9,5 +9,6 @@ router.put("/:id", verifyTokenAndAdmin, productController.updateProduct);
 router.delete("/:id", verifyTokenAndAdmin, productController.deleteProduct);
 router.get("/find/:id", productController.getProductById);
 router.get("/", productController.getAllProducts);
+router.get("/search",productController.searchProducts);
 
 module.exports = router;
