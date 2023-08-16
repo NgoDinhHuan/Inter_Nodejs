@@ -73,10 +73,27 @@ const getAllProducts = async (req, res) => {
         res.status(500).json(err);
     }
 };
+const searchProducts = async (req, res) => {
+    try {
+        const { query } = req.query; // Lấy từ khóa tìm kiếm từ yêu cầu
+        // Sử dụng regex để tìm kiếm 
+        const searchResults = await Product.find({
+            title: { $regex: query, $options: "i" }, // "i" để không phân biệt chữ hoa, chữ thường
+        });
+        
+        console.log("Search results:");
+        res.status(200).json(searchResults);
+    } catch (err) {
+        console.error("Error searching products:", err);
+        res.status(500).json(err);
+    }
+};
+
 module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
     getProductById,
-    getAllProducts
+    getAllProducts,
+    searchProducts
 };
