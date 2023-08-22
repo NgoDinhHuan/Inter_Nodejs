@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 
+
 const updateUser = async (req, res) => {
     if (req.body.password) {
         req.body.password = CryptoJS.AES.encrypt(
@@ -53,9 +54,12 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+  
+
 module.exports = {
     updateUser,
     deleteUser,
     getUserById,
     getAllUsers,
+   
 };
