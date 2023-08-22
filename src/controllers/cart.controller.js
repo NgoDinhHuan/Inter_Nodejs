@@ -1,6 +1,4 @@
 const Cart = require("../models/cart.model");
-
-
 // create
 const createCart = async (req, res) => {
   try {
@@ -35,7 +33,6 @@ const deleteCart = async (req, res) => {
   }
 };
 // get user cart
-
 const getUserCart = async (req, res) => {
   try {
     const userCart = await Cart.findOne({ userId: req.params.userId });
@@ -63,6 +60,4 @@ module.exports = {
   deleteCart,
   getUserCart,
   getAllCarts
-
-
 }

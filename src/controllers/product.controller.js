@@ -47,12 +47,11 @@ const updateProduct = async (req, res) => {
         if (!existingProduct) {
             console.log("Product not found");
             return res.status(404).json("product not found");
-        }
+        };
         // xoa anh cu neu co
         if (existingProduct.img !== img) {
-            const oldImagePath = path.join(__dirname,"..", "..", existingProduct.img);
+            const oldImagePath = path.join(__dirname, "..", "..", existingProduct.img);
             fs.unlinkSync(oldImagePath);
-            console.log("Old image deleted:", oldImagePath);
         }
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
@@ -61,7 +60,7 @@ const updateProduct = async (req, res) => {
             },
             { new: true }
         );
-        console.log("updateProduct:", updatedProduct);
+        console.log("updateProduct:");
         res.status(200).json(updatedProduct);
     } catch (err) {
         console.error("Error updating product:", err);
@@ -118,6 +117,7 @@ const searchProducts = async (req, res) => {
 
         console.log("Search results:");
         res.status(200).json(searchResults);
+        
     } catch (err) {
         console.error("Error searching products:", err);
         res.status(500).json(err);
