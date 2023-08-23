@@ -10,7 +10,7 @@ const authRoute = require("./routers/auth");
 const productRoute = require("./routers/product");
 const cartRoute = require("./routers/cart");
 const orderRoute = require("./routers/order");
-const emailRoute = require("./routers/email");
+const resetEmailRoute = require("./routers/reset_email");
 
 
 
@@ -26,7 +26,7 @@ app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
-app.use("/api/email", emailRoute);
+app.use("/api/password", resetEmailRoute)
 
 
 app.listen(process.env.PORT || 4000, () => {
