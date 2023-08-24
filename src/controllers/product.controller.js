@@ -5,7 +5,7 @@ const path = require("path");
 const createProduct = async (req, res) => {
     try {
         const { title, decs, category, size, color, price } = req.body;
-        const img = req.file.path; 
+        const img = req.file.path;
         const existingProduct = await Product.findOne({ title });
         if (existingProduct) {
             console.log("Product already exists");
@@ -14,7 +14,7 @@ const createProduct = async (req, res) => {
         const newProduct = new Product({
             title,
             decs,
-            img, 
+            img,
             category,
             size,
             color,
@@ -51,7 +51,10 @@ const updateProduct = async (req, res) => {
         // xoa anh cu neu co
         if (existingProduct.img !== img) {
             const oldImagePath = path.join(__dirname, "..", "..", existingProduct.img);
-            fs.unlinkSync(oldImagePath);
+            // kiểm tra tồn tại trước khi xóa
+            if (fs.existsSync(oldImagePath)) {
+                fs.unlinkSync(oldImagePath);
+            }
         }
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
@@ -109,15 +112,28 @@ const getAllProducts = async (req, res) => {
 };
 const searchProducts = async (req, res) => {
     try {
-        const { query } = req.query; // Lấy từ khóa tìm kiếm từ yêu cầu
+        const { query, field } = req.query; // Lấy từ khóa tìm kiếm từ yêu cầu
+
+        const searchField = field || query;
+        let searchValue = query;
+
+        //chuyển đổi searchValue thành float nếu là "price"
+        if (searchValue == ("price")) {
+            searchValue = parseFloat(query);
+        }
         // Sử dụng regex để tìm kiếm 
         const searchResults = await Product.find({
-            title: { $regex: query, $options: "i" }, // "i" để không phân biệt chữ hoa, chữ thường
+            [searchField]: searchValue,
         });
 
+        if (searchResults.length == 0) {
+            console.log("No product found", searchField);
+            return res.status(400).json({ message: "No product found" })
+
+        }
         console.log("Search results:");
         res.status(200).json(searchResults);
-        
+
     } catch (err) {
         console.error("Error searching products:", err);
         res.status(500).json(err);

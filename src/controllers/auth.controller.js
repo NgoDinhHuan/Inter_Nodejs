@@ -147,6 +147,4 @@ module.exports = {
   resetPassword,
   validateResetToken,
 
-
-
 };

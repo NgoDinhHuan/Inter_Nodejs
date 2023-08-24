@@ -9,14 +9,21 @@ const reviewController = require("../controllers/review.controller");
 const upload = require("../middleware/multer.middleware");
 
 
-router.post("/", verifyTokenAndAdmin,upload.single("img"), productController.createProduct);
-router.put("/:id", verifyTokenAndAdmin,upload.single("img"), productController.updateProduct);
+router.post("/add-product", verifyTokenAndAdmin, upload.single("img"), productController.createProduct);
+
+router.put("/update-product/:id", verifyTokenAndAdmin, upload.single("img"), productController.updateProduct);
+
 router.delete("/:id", verifyTokenAndAdmin, productController.deleteProduct);
+
 router.get("/find/:id", productController.getProductById);
-router.get("/", productController.getAllProducts);
-router.get("/search",productController.searchProducts);
-router.post("/reviews",reviewController.createReview);
-router.get("/reviews/:productId",reviewController.getProductReviews);
+
+router.get("/list-product", productController.getAllProducts);
+
+router.get("/search", productController.searchProducts);
+
+router.post("/reviews", reviewController.createReview);
+
+router.get("/reviews/:productId", reviewController.getProductReviews);
 
 
 module.exports = router;

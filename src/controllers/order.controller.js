@@ -19,7 +19,7 @@ const updateOrder = async (req, res) => {
             $set: req.body,
         },
             { new: true }
-        );
+        );  
         res.status(200).json(updateOrder);
     } catch (err) {
         res.status(500).json(err);

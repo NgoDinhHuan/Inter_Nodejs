@@ -6,10 +6,14 @@ const {
     verifyTokenAndAdmin,
 } = require("../middleware/verifyToken");
 
-router.post("/", verifyToken, cartController.createCart);
-router.put("/:id", verifyToken, cartController.updateCart);
+router.post("/add-cart", verifyToken, cartController.createCart);
+
+router.put("/update-cart/:id", verifyToken, cartController.updateCart);
+
 router.delete("/:id", verifyToken, cartController.deleteCart);
+
 router.get("/find/:userId", verifyTokenAndAdmin, cartController.getUserCart);
-router.get("/", verifyTokenAndAdmin, cartController.getAllCarts);
+
+router.get("/list-cart", verifyTokenAndAdmin, cartController.getAllCarts);
 
 module.exports = router;
