@@ -5,7 +5,7 @@ const path = require("path");
 const createProduct = async (req, res) => {
     try {
         const { title, decs, category, size, color, price } = req.body;
-        const img = req.file.path; // Đường dẫn tới hình ảnh đã tải lên
+        const img = req.file.path; 
         const existingProduct = await Product.findOne({ title });
         if (existingProduct) {
             console.log("Product already exists");
@@ -14,7 +14,7 @@ const createProduct = async (req, res) => {
         const newProduct = new Product({
             title,
             decs,
-            img, // Lưu đường dẫn hình ảnh vào sản phẩm
+            img, 
             category,
             size,
             color,
