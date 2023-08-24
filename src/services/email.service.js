@@ -36,10 +36,41 @@ const sendEmail = async (toEmail, subject, content) => {
     subject: subject,
     html: `<h3>${content}</h3>`,
   };
-
   await transport.sendMail(mailOptions);
 };
+const sendPasswordResetEmail = async (email, resetToken) => {
+  try {
+    const myAccessTokenObject = await myOAuth2Client.getAccessToken();
+    const myAccessToken = myAccessTokenObject?.token;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: ADMIN_EMAIL_ADDRESS,
+        clientId: GOOGLE_MAILER_CLIENT_ID,
+        clientSecret: GOOGLE_MAILER_CLIENT_SECRET,
+        refreshToken: GOOGLE_MAILER_REFRESH_TOKEN,
+        accessToken: myAccessToken,
+      },
+    });
+
+    const mailOptions = {
+      from: ADMIN_EMAIL_ADDRESS,
+      to: email,
+      subject: "Reset Your Password",
+      text: `this is a code resetToken your password: ${resetToken}`,
+    };
+    await transporter.sendMail(mailOptions);
+    console.log("Password reset email sent successfully to:", email);
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    throw new Error("Failed to send password reset email.");
+  }
+};
+
 
 module.exports = {
   sendEmail,
+  sendPasswordResetEmail,
 };

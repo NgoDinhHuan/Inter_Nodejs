@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    
+    resetToken: String,
+    resetTokenExpiration: Date,
   },
   { timestamps: true }
 );
