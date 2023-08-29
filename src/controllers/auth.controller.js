@@ -3,6 +3,7 @@ const emailService = require("../services/email.service");
 const crypto = require("crypto");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+
 //REGISTER
 const register = async (req, res) => {
   const { username, email, password, role } = req.body;
@@ -24,12 +25,15 @@ const register = async (req, res) => {
     }
     const savedUser = await newUser.save();
     console.log("User registered:", savedUser.username);
+
+    //res.redirect("/api/auth/login?registrationSuccess=true");
     res.status(201).json(savedUser);
   } catch (err) {
     res.status(500).json(err);
   }
 };
 //LOGIN
+
 const login = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -55,14 +59,22 @@ const login = async (req, res) => {
       process.env.JWT_SEC,
       { expiresIn: "15d" }
     );
+    // Save token to cookie
+    res.cookie("access_token", accessToken, {
+      httpOnly: true,
+      maxAge: 15 * 24 * 60 * 60 * 1000,
+    });
     const { password, ...others } = user._doc;
     console.log("User logged in:", user.username);
     res.status(200).json({ ...others, accessToken });
+    //res.redirect("/api/auth/home");
   } catch (err) {
     console.log("Error during login:", err);
     res.status(500).json(err);
   }
 };
+
+
 //send email
 const sendEmail = async (req, res) => {
   try {
@@ -89,7 +101,7 @@ const forgotPassword = async (req, res) => {
       { email: email },
       {
         resetToken: resetToken,
-        resetTokenExpiration: Date.now() + 3600000, // hết hạn trong 1 giờ
+        resetTokenExpiration: Date.now() + 3600000,
       }
     );
     // send email contain resetToken to user
@@ -139,6 +151,11 @@ const resetPassword = async (req, res) => {
     res.status(500).json({ error: "an error occurred" });
   }
 };
+
+const showHomePage = (req, res) => {
+  const user = req.user;
+  res.render("home", { user })
+};
 module.exports = {
   register,
   login,
@@ -146,5 +163,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   validateResetToken,
-
+  
 };
