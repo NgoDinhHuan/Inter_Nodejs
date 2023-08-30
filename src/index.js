@@ -11,6 +11,7 @@ const authRoute = require("./routers/auth");
 const productRoute = require("./routers/product");
 const cartRoute = require("./routers/cart");
 const orderRoute = require("./routers/order");
+const paymentRoute = require("./routers/payment")
 
 dotenv.config();
 connectDB();
@@ -27,6 +28,7 @@ app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/payments",paymentRoute);
 
 
 

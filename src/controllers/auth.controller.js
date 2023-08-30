@@ -152,10 +152,10 @@ const resetPassword = async (req, res) => {
   }
 };
 
-const showHomePage = (req, res) => {
-  const user = req.user;
-  res.render("home", { user })
-};
+// const showHomePage = (req, res) => {
+//   const user = req.user;
+//   res.render("home", { user })
+// };
 module.exports = {
   register,
   login,
