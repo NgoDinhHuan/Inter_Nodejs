@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const fuzzy = require("mongoose-fuzzy-search");
 
 const ProductSchema = new mongoose.Schema(
   {
@@ -14,9 +13,5 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Sử dụng mongoose-fuzzy-search
-ProductSchema.plugin(fuzzy, {
-  fields: ["title"], // Trường cần tìm kiếm
-});
 
 module.exports = mongoose.model("Product", ProductSchema);

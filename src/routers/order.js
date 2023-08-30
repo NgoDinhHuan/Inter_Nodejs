@@ -6,11 +6,15 @@ const {
     verifyTokenAndAdmin
 } = require("../middleware/verifyToken");
 
-router.post("/",verifyToken,orderController.createOrder);
-router.put("/:id",verifyToken,orderController.updateOrder);
-router.delete("/:id",verifyToken,orderController.deleteOrder);
-router.get("/find/:userId",verifyTokenAndAdmin,orderController.getUserOrder);
-router.get("/",verifyTokenAndAdmin,orderController.getAllOrder);
+router.post("/add-order", verifyToken, orderController.createOrder);
+
+router.put("/update/:id", verifyToken, orderController.updateOrder);
+
+router.delete("/:id", verifyToken, orderController.deleteOrder);
+
+router.get("/find/:userId", verifyTokenAndAdmin, orderController.getUserOrder);
+
+router.get("/list-order", verifyTokenAndAdmin, orderController.getAllOrder);
 
 
 module.exports = router;
